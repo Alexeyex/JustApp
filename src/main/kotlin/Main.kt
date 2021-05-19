@@ -2,7 +2,11 @@ import java.util.*
 
 val sc = Scanner(System.`in`)
 val seconds = sc.nextInt()
-var endingMinutes: String = ""
+val min = seconds/60
+val hour = seconds/3600
+val m = min.toString().split("")
+val i:String = m[m.size - 2]
+val j:String = m[m.size - 3]
 
 fun main() {
     agoToText()
@@ -11,39 +15,31 @@ fun main() {
 private fun agoToText() {
     when (seconds) {
         in 0..60 -> print("был(а) только что")
-        in 61..60 * 60 -> choiceOfEndingMinutes()
-        in (60 * 60) + 1..24 * 60 * 60 -> choiceOfEndingHours()
+        in 61..60 * 60 -> print("был(а) ${choiceOfEndingMinutes()} назад")
+        in (60 * 60) + 1..24 * 60 * 60 -> print("был(а) ${choiceOfEndingHours()} назад")
         in (24 * 60 * 60) + 1..48 * 60 * 60 -> print("был(а) сегодня")
         in (48 * 60 * 60) + 1..72 * 60 * 60 -> print("был(а) вчера")
         else -> print("был(а) давно")
     }
 }
 
-private fun choiceOfEndingMinutes() {
-    val m = (seconds / 60).toString().split("")
+private fun choiceOfEndingMinutes(): String {
 
-    when (true) {
-        (m[m.size - 2] == "2" || m[m.size - 2] == "3" || m[m.size - 2] == "4" || m[m.size - 2] == "1") && m[m.size - 3] == "1" -> endingMinutes =
-            "был(а) ${seconds / 60} минут назад"
-        m[m.size - 2] == "1" -> endingMinutes = "был(а) ${seconds / 60} минуту назад"
-        m[m.size - 2] == "2" || m[m.size - 2] == "3" || m[m.size - 2] == "4" -> endingMinutes =
-            "был(а) ${seconds / 60} минуты назад"
-        (m[m.size - 2] == "2" || m[m.size - 2] == "3" || m[m.size - 2] == "4") && (m[m.size - 3] == "1") -> endingMinutes =
-            "был(а) ${seconds / 60} минуты назад"
-        else -> endingMinutes = "был(а) ${seconds / 60} минут назад"
+    return when {
+        (i == "2" || i == "3" || i == "4" || i == "1") && j == "1" -> "$min минут"
+        i == "1" -> "$min минуту"
+        i == "2" || i == "3" || i == "4" -> "$min минуты"
+        (i == "2" || i == "3" || i == "4") && (j == "1") -> "$min минуты"
+        else -> "$min минут"
     }
-    print(endingMinutes)
 }
 
-private fun choiceOfEndingHours() {
-    val m = (seconds / 3600).toString().split("")
+private fun choiceOfEndingHours(): String {
 
-    when (true) {
-        m[m.size - 2] == "1" && m[m.size - 3] == "1" -> endingMinutes = "был(а) ${seconds / 3600} часов назад"
-        m[m.size - 2] == "1" -> endingMinutes = "был(а) ${seconds / 3600} час назад"
-        m[m.size - 2] == "2" || m[m.size - 2] == "3" || m[m.size - 2] == "4" -> endingMinutes =
-            "был(а) ${seconds / 3600} часа назад"
-        else -> endingMinutes = "был(а) ${seconds / 3600} часов назад"
+    return when {
+        i == "1" && j == "1" -> "$hour часов"
+        i == "1" -> "$hour час"
+        i == "2" || i == "3" || j == "4" -> "$hour часа"
+        else -> "$hour часов"
     }
-    print(endingMinutes)
 }
